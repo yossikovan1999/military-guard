@@ -1,11 +1,16 @@
-import { IsString, IsInt, Min, Max, IsEmail, IsNotEmpty} from 'class-validator';
+import { IsString, IsInt, Min, Max, IsEmail, IsNotEmpty, IsEnum} from 'class-validator';
 
 export class CreateSoldierDto{
    
+   id : number
+
    @IsNotEmpty()
    @IsString()
-   name : String
+   username : String
    
+   @IsNotEmpty()
+   name : String
+
    @IsNotEmpty()
    lastName : String
    
@@ -21,4 +26,8 @@ export class CreateSoldierDto{
    
    @IsNotEmpty()
    tz : number
+
+   @IsNotEmpty()
+   @IsEnum(['SOLDIER', 'COMMANDER'])
+   role : 'SOLDIER' | 'COMMANDER'
 }
