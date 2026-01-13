@@ -1,4 +1,4 @@
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException} from '@nestjs/common';
 import { CreateSoldierDto } from './dto/create-soldier.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';

@@ -1,12 +1,10 @@
-import { Model, OneToMany } from "sequelize";
-import { Column, Table } from "sequelize-typescript";
+import { Table, Column, Model, HasMany } from 'sequelize-typescript';
+import { User } from 'src/users/entities/user.entity';
+
 
 @Table
 export class Assignment extends Model {
 
-    
-    @OneToMany(type => Photo, photo => photo.user)
-    photos: Photo[];
-    
-
+    @Column
+    userId : number
 }

@@ -4,17 +4,17 @@ export class CreateSoldierDto{
    
    @IsNotEmpty()
    @IsString()
-   username : String
+   username : string
    
    @IsNotEmpty()
-   name : String
+   name : string
 
    @IsNotEmpty()
-   lastName : String
+   lastName : string
    
    @IsNotEmpty()
    @IsEmail()
-   email : String
+   email : string
    
    @IsNotEmpty()
    password : string
