@@ -9,6 +9,7 @@ import { ShiftsController } from './shifts/shifts.controller';
 import { AssignmentsController } from './assignments/assignments.controller';
 import { ShiftsModule } from './shifts/shifts.module';
 import { AssignmentsModule } from './assignments/assignments.module';
+import {DatabaseModule} from "./database/database.module";
 
 @Module({
   imports: [
@@ -16,15 +17,16 @@ import { AssignmentsModule } from './assignments/assignments.module';
     AuthModule,
     ShiftsModule,
     AssignmentsModule,
+    DatabaseModule,
     ConfigModule.forRoot(),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET_KEY,
-      signOptions: { expiresIn: '15m' },
+      signOptions: { expiresIn: '24h' },
     }),
    
   ],
-  controllers: [AppController, ShiftsController, AssignmentsController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

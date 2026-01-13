@@ -1,26 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject} from '@nestjs/common';
 import { CreateShiftDto } from './dto/create-shift.dto';
 import { UpdateShiftDto } from './dto/update-shift.dto';
+import { Shift } from './entities/shift.entity';
 
 @Injectable()
 export class ShiftsService {
-  create(createShiftDto: CreateShiftDto) {
-    return 'This action adds a new shift';
+  
+  constructor(@Inject('SHIFT_REPOSITORY') private shiftRepository: typeof Shift){}
+  
+  async createShift(createShiftDto: CreateShiftDto, userId : number){
+
+    await this.shiftRepository.create({userId, ...createShiftDto});
+  }
+  
+  async getAllShifts(){
+    return await this.shiftRepository.findAll();
   }
 
-  findAll() {
-    return `This action returns all shifts`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} shift`;
-  }
-
-  update(id: number, updateShiftDto: UpdateShiftDto) {
-    return `This action updates a #${id} shift`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} shift`;
+  async deleteShift(id : number, userId : number){
+    const result = await this.shiftRepository.destroy({where : {id, userId}});
+    
+    if(result === 0){
+      throw new Error("unable to delete.")
+    }
   }
 }

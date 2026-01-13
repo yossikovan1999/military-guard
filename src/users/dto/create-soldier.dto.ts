@@ -2,8 +2,6 @@ import { IsString, IsInt, Min, Max, IsEmail, IsNotEmpty, IsEnum} from 'class-val
 
 export class CreateSoldierDto{
    
-   id : number
-
    @IsNotEmpty()
    @IsString()
    username : String
@@ -22,7 +20,7 @@ export class CreateSoldierDto{
    password : string
     
    @IsNotEmpty()
-   military_id: number
+   militaryId: number
    
    @IsNotEmpty()
    tz : number
