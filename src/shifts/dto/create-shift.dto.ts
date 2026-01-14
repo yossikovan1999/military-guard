@@ -1,4 +1,4 @@
-import { IsDateString, IsTimeZone, IsString, IsMilitaryTime, ValidateIf} from 'class-validator';
+import { IsString, IsMilitaryTime} from 'class-validator';
 
 export class CreateShiftDto {
 

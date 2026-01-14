@@ -1,7 +1,9 @@
-import { Table, Column, Model, Unique, AutoIncrement, PrimaryKey, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, BelongsTo, BelongsToMany } from 'sequelize-typescript';
+import { Assignment } from 'src/assignments/entities/assignment.entity';
 import { User } from 'src/users/entities/user.entity';
 
-@Table({tableName : 'Shifts'})
+
+@Table
 export class Shift extends Model {
 
   @Column({field : 'start_time'})
@@ -12,9 +14,9 @@ export class Shift extends Model {
 
   @Column
   location: string;
-  
+    
   @ForeignKey(()=>User)
-  @Column({field : 'user_id'})
+  @Column({field : 'created_by'})
   userId : number
   
   @BelongsTo(()=>User)

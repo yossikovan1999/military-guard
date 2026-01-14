@@ -1,12 +1,14 @@
-import { Injectable, Inject, NotFoundException} from '@nestjs/common';
+import { Injectable, NotFoundException} from '@nestjs/common';
 import { CreateSoldierDto } from './dto/create-soldier.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { first } from 'rxjs';
+import { InjectModel } from '@nestjs/sequelize';
+
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject('USER_REPOSITORY') private userRepository: typeof User) {}
+  constructor(@InjectModel(User) private userRepository: typeof User) {}
 
   async addSoldier(soldier: CreateSoldierDto) {
     const hash = await bcrypt.hash(soldier.password, 10);

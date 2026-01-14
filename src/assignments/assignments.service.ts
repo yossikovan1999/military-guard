@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
 import { UpdateAssignmentDto } from './dto/update-assignment.dto';
+import { User } from 'src/users/entities/user.entity';
+import { InjectModel } from '@nestjs/sequelize';
+import { Shift } from 'src/shifts/entities/shift.entity';
+import { Assignment } from './entities/assignment.entity';
 
 @Injectable()
 export class AssignmentsService {
-  create(createAssignmentDto: CreateAssignmentDto) {
-    return 'This action adds a new assignment';
+  constructor(
+    @InjectModel(User) private userRepository: typeof User,
+    @InjectModel(Assignment) private assignmentRepository: typeof Assignment,
+  ) {}
+
+  async create(createAssignmentDto: CreateAssignmentDto) {
+    const user = await this.userRepository.findOne({
+      where: { username: createAssignmentDto.username },
+    });
+
+    if (!user) {
+      throw new NotFoundException('username not found.');
+    }
+
+    if (user.role === 'COMMANDER') {
+      throw new BadRequestException('commander cannot be added to shift');
+    }
+
+    await this.assignmentRepository.create({
+      userId: user.id,
+      shiftId: createAssignmentDto.shiftId,
+    });
   }
 
-  findAll() {
-    return `This action returns all assignments`;
-  }
+  async getUsersAssignments(userId: number) {
+    
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      include: [{ model: Shift, attributes : { exclude: ["Assignment"]}}],
+      attributes: { exclude: ['password'] },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} assignment`;
-  }
+    if (!user) {
+      throw new NotFoundException('user not found.');
+    }
+    
+    console.log(user);
+    
 
-  update(id: number, updateAssignmentDto: UpdateAssignmentDto) {
-    return `This action updates a #${id} assignment`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} assignment`;
+    return user.dataValues;
   }
 }

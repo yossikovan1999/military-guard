@@ -1,4 +1,6 @@
-import { Table, Column, Model, Unique, AutoIncrement, PrimaryKey } from 'sequelize-typescript';
+import { Table, Column, Model, Unique, AutoIncrement, PrimaryKey, BelongsTo, BelongsToMany } from 'sequelize-typescript';
+import { Assignment } from 'src/assignments/entities/assignment.entity';
+import { Shift } from 'src/shifts/entities/shift.entity';
 
 @Table
 export class User extends Model {
@@ -29,4 +31,7 @@ export class User extends Model {
   
   @Column
   role : 'SOLDIER' | 'COMMANDER'
+
+  @BelongsToMany(()=>Shift, ()=>Assignment)
+  shifts : Shift[]
 }
